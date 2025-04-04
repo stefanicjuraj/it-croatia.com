@@ -5,23 +5,15 @@ export default function Header() {
   const style = themeClasses(theme);
 
   return (
-    <header
-      className={`max-w-screen-xl mx-auto mb-16 sm:p-16 px-8 py-12 ${style.backgroundHeader} rounded-3xl text-left ${style.shadowHeader}`}
-    >
+    <header className={`max-w-screen-xl mx-auto mb-8 text-left sm:p-0 p-4`}>
       <div className="flex items-center mb-8">
-        <h1 className={`text-4xl font-bold ${style.headingH1} sm:text-6xl`}>
-          Education
+        <h1 className={`text-5xl font-bold ${style.headingH1} sm:text-6xl`}>
+          IT Education in Croatia
         </h1>
       </div>
       <p className={`w-full ${style.text} text-md sm:text-lg sm:w-3/4`}>
-        A collection of IT{" "}
-        <span
-          className={`${style.backgroundHeaderText} px-1 py-0.3 rounded-lg`}
-        >
-          education
-        </span>{" "}
-        provided in Croatia. Enroll into colleges, courses, lectures, and
-        classes to learn more about IT and software development.
+        A collection of IT education in Croatia. Enroll into colleges, courses,
+        lectures, and classes to learn more about IT and software development.
       </p>
     </header>
   );

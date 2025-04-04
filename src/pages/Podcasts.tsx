@@ -29,7 +29,7 @@ export default function Podcasts() {
 
   return (
     <div className={`${style.backgroundBody}`}>
-      <div className="pt-40">
+      <div className="pt-24">
         <Header />
       </div>
       {loading ? (
