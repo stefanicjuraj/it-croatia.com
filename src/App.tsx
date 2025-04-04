@@ -12,7 +12,6 @@ import Communities from "./pages/Communities";
 import Workplace from "./pages/Workplaces";
 import Podcasts from "./pages/Podcasts";
 import Internships from "./pages/Internships";
-import Dictionary from "./pages/Dictionary";
 import Contribute from "./pages/Contribute";
 import FourOFour from "./pages/404";
 // Utils
@@ -38,7 +37,6 @@ export default function App() {
             <Route path="/internships" element={<Internships />} />
             <Route path="/contribute" element={<Contribute />} />
             <Route path="/places-to-work" element={<Workplace />} />
-            <Route path="/dictionary" element={<Dictionary />} />
             <Route path="*" element={<FourOFour />} />
           </Routes>
         </Router>
