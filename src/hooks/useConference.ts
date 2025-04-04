@@ -31,16 +31,16 @@ export const useConference = () => {
     let currentYear = now.getFullYear();
     let fullStartDate = `${startDate}, ${currentYear}`;
     let start = new Date(fullStartDate);
-  
+
     if (start.getTime() < now.getTime()) {
       currentYear += 1;
       fullStartDate = `${startDate}, ${currentYear}`;
       start = new Date(fullStartDate);
     }
-  
+
     const difference = start.getTime() - now.getTime();
     const daysLeft = Math.ceil(difference / (1000 * 3600 * 24));
-  
+
     return daysLeft > 0 ? `${daysLeft} days` : "";
   };
 

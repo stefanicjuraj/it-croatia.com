@@ -19,7 +19,7 @@ export const useCompany = () => {
     "Marketing Services",
     "Media Technology",
     "Financial Services",
-    "Blockchain Services"
+    "Blockchain Services",
   ];
 
   const mapTags: { [key: string]: string } = {
