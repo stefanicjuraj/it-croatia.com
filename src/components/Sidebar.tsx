@@ -19,7 +19,6 @@ import home from "/assets/icons/home.svg";
 import light from "/assets/icons/light.svg";
 import dark from "/assets/icons/dark.svg";
 import Notification from "./Notification";
-import dictionary from "/assets/icons/dictionary.svg";
 
 export default function Sidebar() {
   const { theme, toggleTheme, themeClasses } = useTheme();
@@ -247,28 +246,6 @@ export default function Sidebar() {
               >
                 <img src={internship} alt="Home icon" className="w-6 h-6" />
                 <h1 className="flex-1 ms-3 whitespace-nowrap">Internships</h1>
-                <span className="inline-flex items-center justify-center">
-                  <img
-                    src={chevronRight}
-                    alt="Arrow right icon"
-                    className="w-5 h-5"
-                  />
-                </span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/dictionary"
-                className={`flex items-center p-3 rounded-xl group ${
-                  style.backgroundFiltersHover
-                } ${activeClass("/dictionary")}`}
-              >
-                <img
-                  src={dictionary}
-                  alt="Dictionary icon"
-                  className="w-6 h-6"
-                />
-                <h1 className="flex-1 ms-3 whitespace-nowrap">Dictionary</h1>
                 <span className="inline-flex items-center justify-center">
                   <img
                     src={chevronRight}
