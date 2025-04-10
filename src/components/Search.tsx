@@ -31,7 +31,7 @@ export const Search = ({
           <img src={searchicon} className="w-5 h-5" alt="Search icon" />
         </div>
         <input
-          className={`block w-full p-4 pl-12 ${style.text} ${style.background} ${style.borderSearch} rounded-xl focus:border-indigo-400 hover:border-indigo-400`}
+          className={`block w-full p-4 pl-12 ${style.text} ${style.background} ${style.borderSearch} rounded-lg focus:border-indigo-400 hover:border-indigo-400`}
           type="text"
           value={search}
           onChange={handleSearch}
