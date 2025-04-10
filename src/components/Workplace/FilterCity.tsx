@@ -23,7 +23,7 @@ export const FilterCity = ({
     <>
       <div className="relative mt-4 ml-0 sm:mt-0 sm:ml-3">
         <button
-          className={`w-full flex items-center justify-center py-4 px-5 ${style.text} ${style.background} ${style.borderSearch} rounded-xl hover:border-indigo-400`}
+          className={`w-full flex items-center justify-center py-4 px-5 ${style.text} ${style.background} ${style.borderSearch} rounded-lg hover:border-indigo-400`}
           type="button"
           onClick={toggle}
         >
