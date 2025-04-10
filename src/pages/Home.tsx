@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 // Components
-import Badge from "../components/Badge";
 import Footer from "../components/Footer";
 // Utils
 import { useTheme } from "../utils/Theme";
@@ -61,7 +60,6 @@ export default function Home() {
             in Croatia
           </p>
         </div>
-        <Badge />
         <section className="px-8 py-8 space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-16 md:space-y-0">
           <Link to="/companies">
             <div
