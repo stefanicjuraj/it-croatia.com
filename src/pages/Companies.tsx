@@ -97,7 +97,7 @@ export default function Companies() {
         <div className={`${style.backgroundBody}`}>
           <section className="relative max-w-screen-xl px-4 mx-auto sm:px-0 animation glow delay-1">
             <div className="flex flex-wrap items-center mb-8 sm:flex-nowrap">
-              <div className={`relative mr-4 ${style.text} sm:w-96 w-full`}>
+              <div className={`relative mr-2 ${style.text} sm:w-96 w-full`}>
                 <Search
                   onSearchChange={setCompanySearch}
                   placeholder="Search companies"
