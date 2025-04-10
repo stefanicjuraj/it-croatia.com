@@ -18,7 +18,6 @@ import chevronRight from "/assets/icons/chevron-right.svg";
 import home from "/assets/icons/home.svg";
 import light from "/assets/icons/light.svg";
 import dark from "/assets/icons/dark.svg";
-import Notification from "./Notification";
 
 export default function Sidebar() {
   const { theme, toggleTheme, themeClasses } = useTheme();
@@ -78,7 +77,6 @@ export default function Sidebar() {
                   <img src={light} alt="Light mode icon" className="w-5 h-5" />
                 )}
               </button>
-              <Notification />
               <div>
                 <p className={`${style.text} text-md`}>Last updated:</p>
                 <a
