@@ -117,7 +117,7 @@ export default function Conferences() {
               />
               <button
                 onClick={toggleViewMode}
-                className={`mt-4 sm:mt-0 sm:ml-3 ml-3 flex items-center justify-center py-4 px-5 ${style.text} ${style.backgroundHeader} ${style.borderSearch} rounded-xl hover:border-indigo-400`}
+                className={`mt-4 sm:mt-0 sm:ml-3 ml-3 flex items-center justify-center py-4 border border-2 border-transparent px-5 ${style.text} ${style.backgroundHeader} ${style.borderSearch} rounded-lg hover:border-indigo-400`}
               >
                 Toggle view
               </button>
