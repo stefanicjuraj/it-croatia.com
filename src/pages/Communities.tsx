@@ -65,7 +65,7 @@ export default function Communities() {
                   placeholder="Search communities"
                 />
                 <p
-                  className={`absolute right-2 bottom-2 ${style.backgroundFilters} rounded-full px-5 py-2`}
+                  className={`absolute right-2 bottom-2 ${style.backgroundFilters} rounded-lg px-5 py-2`}
                 >
                   {searchCommunity.length} results
                 </p>

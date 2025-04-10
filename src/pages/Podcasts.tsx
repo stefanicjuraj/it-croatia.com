@@ -44,7 +44,7 @@ export default function Podcasts() {
                   placeholder="Search podcasts"
                 />
                 <p
-                  className={`absolute right-2 bottom-2 ${style.backgroundFilters} rounded-full px-5 py-2`}
+                  className={`absolute right-2 bottom-2 ${style.backgroundFilters} rounded-lg px-5 py-2`}
                 >
                   {searchPodcast.length} results
                 </p>
