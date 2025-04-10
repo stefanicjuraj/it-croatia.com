@@ -29,7 +29,7 @@ export const FilterArea = ({
         >
           Area
           <span
-            className={`ml-2 text-sm ${style.textFilters} rounded-full ${style.backgroundFilters} px-2.5 py-1`}
+            className={`ml-2 text-sm ${style.textFilters} rounded-lg ${style.backgroundFilters} px-2.5 py-1`}
           >
             {selectArea.length}
           </span>
