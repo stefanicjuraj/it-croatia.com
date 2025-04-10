@@ -5,7 +5,9 @@ export default function Header() {
   const style = themeClasses(theme);
 
   return (
-    <header className={`max-w-screen-xl mx-auto mb-8 text-left sm:p-0 p-4`}>
+    <header
+      className={`max-w-screen-xl mx-auto mb-8 text-left sm:p-0 px-4 sm:px-4 p-4`}
+    >
       <div className="flex items-center mb-8">
         <h1 className={`text-5xl font-bold ${style.headingH1} sm:text-6xl`}>
           IT Education in Croatia
