@@ -51,7 +51,7 @@ export const FilterLocation = ({
             id="checkbox"
             className={`absolute z-10 w-42 ${style.background} rounded-lg shadow mt-2 overflow-y-auto max-h-80`}
           >
-            <div className="relative px-2 py-1 mt-1">
+            <div className={`relative px-2 py-1 sticky top-0 ${style.background}`}>
               <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
                 <img src={searchicon} className="w-4 h-4" alt="Search icon" />
               </div>
