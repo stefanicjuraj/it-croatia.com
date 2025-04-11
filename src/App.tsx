@@ -14,10 +14,10 @@ import Podcasts from "./pages/Podcasts";
 import Internships from "./pages/Internships";
 import Contribute from "./pages/Contribute";
 import FourOFour from "./pages/404";
+import Map from "./pages/Map";
 // Utils
 import ScrollToTop from "./utils/scrollToTop";
 import { ThemeProvider } from "./utils/Theme";
-
 export default function App() {
   return (
     <>
@@ -38,6 +38,7 @@ export default function App() {
             <Route path="/contribute" element={<Contribute />} />
             <Route path="/places-to-work" element={<Workplace />} />
             <Route path="*" element={<FourOFour />} />
+            <Route path="/companies/map" element={<Map />} />
           </Routes>
         </Router>
       </ThemeProvider>
