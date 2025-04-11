@@ -29,7 +29,7 @@ export const FilterLocation = ({
     <>
       <div className="relative mt-4 ml-4 sm:mt-0">
         <button
-          className={`w-full flex items-center justify-center py-4 px-5 ${style.text} ${style.background} ${style.borderSearch} rounded-lg hover:border-indigo-400`}
+          className={`w-full flex items-center justify-center py-3.5 px-5 ${style.text} ${style.background} ${style.borderSearch} rounded-lg hover:border-indigo-400`}
           type="button"
           onClick={toggle}
         >
@@ -51,7 +51,9 @@ export const FilterLocation = ({
             id="checkbox"
             className={`absolute z-10 w-42 ${style.background} rounded-lg shadow mt-2 overflow-y-auto max-h-80`}
           >
-            <div className={`relative px-2 py-1 sticky top-0 ${style.background}`}>
+            <div
+              className={`relative px-2 py-1 sticky top-0 ${style.background}`}
+            >
               <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
                 <img src={searchicon} className="w-4 h-4" alt="Search icon" />
               </div>

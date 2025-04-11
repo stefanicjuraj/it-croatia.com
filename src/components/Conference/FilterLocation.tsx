@@ -23,7 +23,7 @@ export const FilterLocation = ({
     <>
       <div className="relative mt-4 sm:mt-0 sm:ml-3 ml-0">
         <button
-          className={`w-full flex items-center justify-center py-4 px-5 ${style.text} ${style.background} ${style.borderSearch} rounded-lg hover:border-indigo-400`}
+          className={`w-full flex items-center justify-center py-3.5 px-5 ${style.text} ${style.background} ${style.borderSearch} rounded-lg hover:border-indigo-400`}
           type="button"
           onClick={toggle}
         >
