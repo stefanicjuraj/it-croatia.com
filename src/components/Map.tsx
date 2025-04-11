@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 // Types
@@ -76,34 +76,25 @@ type MapStyle = {
 };
 
 type MapStyles = {
-  dark: MapStyle;
-  light: MapStyle;
-  terrain: MapStyle;
-  satellite: MapStyle;
   standard: MapStyle;
 };
 
 const mapStyles: MapStyles = {
-  dark: {
-    url: "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png",
-    attribution: '<a href="https://stadiamaps.com/"></a>',
-    maxZoom: 20,
-  },
-  light: {
-    url: "https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png",
-    attribution: '<a href="https://stadiamaps.com/"></a>',
-    maxZoom: 20,
-  },
-  terrain: {
-    url: "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
-    attribution: '<a href="https://opentopomap.org"></a>',
-    maxZoom: 17,
-  },
-  satellite: {
-    url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-    attribution: '<a href="https://www.esri.com/"></a>',
-    maxZoom: 19,
-  },
+  // dark: {
+  //   url: "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png",
+  //   attribution: '<a href="https://stadiamaps.com/"></a>',
+  //   maxZoom: 20,
+  // },
+  // light: {
+  //   url: "https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png",
+  //   attribution: '<a href="https://stadiamaps.com/"></a>',
+  //   maxZoom: 20,
+  // },
+  // satellite: {
+  //   url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+  //   attribution: '<a href="https://www.esri.com/"></a>',
+  //   maxZoom: 19,
+  // },
   standard: {
     url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     attribution:
@@ -112,77 +103,65 @@ const mapStyles: MapStyles = {
   },
 };
 
-const MapStyleControl = ({
-  mapStyle,
-  setMapStyle,
-}: {
-  mapStyle: keyof MapStyles;
-  setMapStyle: (style: keyof MapStyles) => void;
-}) => {
-  const map = useMap();
+// const MapStyleControl = ({
+//   mapStyle,
+//   setMapStyle,
+// }: {
+//   mapStyle: keyof MapStyles;
+//   setMapStyle: (style: keyof MapStyles) => void;
+// }) => {
+//   const map = useMap();
 
-  useEffect(() => {
-    const StyleControl = L.Control.extend({
-      options: {
-        position: "topright",
-      },
-      onAdd: function () {
-        const div = L.DomUtil.create("div", "leaflet-control leaflet-bar");
-        div.innerHTML = `
-          <select
-            id="style-selector"
-            class="bg-[#444] text-white px-4 py-2 rounded-md border border-[#555] focus:outline-none focus:border-blue-500"
-            style="padding: 8px; margin: 6px; cursor: pointer; font-size: 16px; min-width: 150px;"
-          >
-            <option value="dark" ${
-              mapStyle === "dark" ? "selected" : ""
-            }>Dark</option>
-            <option value="light" ${
-              mapStyle === "light" ? "selected" : ""
-            }>Light</option>
-            <option value="terrain" ${
-              mapStyle === "terrain" ? "selected" : ""
-            }>Terrain Relief</option>
-            <option value="satellite" ${
-              mapStyle === "satellite" ? "selected" : ""
-            }>Satellite</option>
-            <option value="standard" ${
-              mapStyle === "standard" ? "selected" : ""
-            }>Standard</option>
-          </select>
-        `;
+//   useEffect(() => {
+//     const StyleControl = L.Control.extend({
+//       options: {
+//         position: "topright",
+//       },
+//       onAdd: function () {
+//         const div = L.DomUtil.create("div", "leaflet-control leaflet-bar");
+//         div.innerHTML = `
+//           <select
+//             id="style-selector"
+//             class="bg-[#444] text-white px-4 py-2 rounded-md border border-[#555] focus:outline-none focus:border-blue-500"
+//             style="padding: 8px; margin: 6px; cursor: pointer; font-size: 16px; min-width: 150px;"
+//           >
+//             <option value="standard" ${
+//               mapStyle === "standard" ? "selected" : ""
+//             }>Standard</option>
+//           </select>
+//         `;
 
-        L.DomEvent.disableClickPropagation(div);
+//         L.DomEvent.disableClickPropagation(div);
 
-        const select = div.querySelector("select");
-        if (select) {
-          select.addEventListener("change", (e) => {
-            const target = e.target as HTMLSelectElement;
-            setMapStyle(target.value as keyof MapStyles);
-          });
-        }
+//         const select = div.querySelector("select");
+//         if (select) {
+//           select.addEventListener("change", (e) => {
+//             const target = e.target as HTMLSelectElement;
+//             setMapStyle(target.value as keyof MapStyles);
+//           });
+//         }
 
-        return div;
-      },
-    });
+//         return div;
+//       },
+//     });
 
-    const styleControl = new StyleControl();
-    styleControl.addTo(map);
+//     const styleControl = new StyleControl();
+//     styleControl.addTo(map);
 
-    return () => {
-      styleControl.remove();
-    };
-  }, [map, mapStyle, setMapStyle]);
+//     return () => {
+//       styleControl.remove();
+//     };
+//   }, [map, mapStyle, setMapStyle]);
 
-  return null;
-};
+//   return null;
+// };
 
 interface MapProps {
   companiesByCity: { [city: string]: Company[] };
 }
 
 export default function Map({ companiesByCity }: MapProps) {
-  const [mapStyle, setMapStyle] = useState<keyof MapStyles>("dark");
+  const [mapStyle] = useState<keyof MapStyles>("standard");
 
   useEffect(() => {
     // Add custom styles for the Leaflet popups
@@ -252,7 +231,7 @@ export default function Map({ companiesByCity }: MapProps) {
             url={mapStyles[mapStyle].url}
             maxZoom={mapStyles[mapStyle].maxZoom}
           />
-          <MapStyleControl mapStyle={mapStyle} setMapStyle={setMapStyle} />
+          {/* <MapStyleControl mapStyle={mapStyle} setMapStyle={setMapStyle} /> */}
 
           {Object.entries(companiesByCity).map(([city, companies]) => {
             const coordinates = cityCoordinates[city];
