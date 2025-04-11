@@ -16,6 +16,7 @@ import placesToWork from "/assets/icons/places-to-work.svg";
 import dictionary from "/assets/icons/dictionary.svg";
 // Images
 import image from "/assets/images/cro-it.png";
+import articeImage from "/assets/images/article.png";
 import redditImage from "/assets/images/reddit-image.png";
 import { useEffect, useState } from "react";
 
@@ -263,6 +264,24 @@ export default function Home() {
           >
             <img
               src={redditImage}
+              className="w-full mx-auto mt-16 mb-16 shadow-md sm:w-1/3 rounded-xl hover:border-2 hover:border-indigo-500"
+            ></img>
+          </a>
+        </div>
+        <div
+          className={`px-4 py-4 mt-24 mb-24 text-center ${style.headingH1} animation glow delay-9`}
+        >
+          <h2 className="mb-4 text-5xl font-bold">Featured article</h2>
+          <h3 className="text-2xl italic font-normal">
+            How Juraj Štefanić built it-croatia.com to guide the IT industry
+          </h3>
+          <a
+            href="https://www.rit.edu/croatia/news/how-juraj-stefanic-built-it-croatiacom-guide-it-industry"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src={articeImage}
               className="w-full mx-auto mt-16 mb-16 shadow-md sm:w-1/3 rounded-xl hover:border-2 hover:border-indigo-500"
             ></img>
           </a>
