@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const jetbrainsMono = JetBrains_Mono({
@@ -53,6 +54,11 @@ export default function RootLayout({
         className={`${jetbrainsMono.variable} antialiased`}
       >
         {children}
+        <Script
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "633ab3204ab2411489ed5189e20e1aa3"}'
+        />
       </body>
     </html>
   );
