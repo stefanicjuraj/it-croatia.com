@@ -1,4 +1,4 @@
-const CONTENT = `# it-croatia.com - Agent Reference
+# it-croatia.com - Agent Reference
 
 You are working with the it-croatia.com API: a public dataset of IT companies, startups, agencies, and consultancies in Croatia.
 
@@ -8,15 +8,15 @@ This document tells you everything you need to fetch, filter, and use this data 
 
 To get all companies as JSON, make a single GET request:
 
-  fetch("https://www.it-croatia.com/api/companies?format=json")
+    fetch("https://www.it-croatia.com/api/companies?format=json")
 
 To filter, add query parameters:
 
-  fetch("https://www.it-croatia.com/api/companies?format=json&industry=software&location=zagreb")
+    fetch("https://www.it-croatia.com/api/companies?format=json&industry=software&location=zagreb")
 
 From a terminal:
 
-  curl -sL -H "Accept: application/json" "https://www.it-croatia.com/api/companies"
+    curl -sL -H "Accept: application/json" "https://www.it-croatia.com/api/companies"
 
 That is all you need. The rest of this document covers details.
 
@@ -42,6 +42,7 @@ Both filters can be combined. Omitting both returns all companies.
 
 ### Response Shape
 
+```json
 {
   "count": 207,
   "filters": { "industry": "software", "location": "zagreb" },
@@ -54,6 +55,7 @@ Both filters can be combined. Omitting both returns all companies.
     }
   ]
 }
+```
 
 - count: number of companies in the response
 - filters: the filters you applied, echoed back
@@ -67,7 +69,9 @@ Both filters can be combined. Omitting both returns all companies.
 
 If you pass an invalid industry or location, the API returns 400 with:
 
-{ "error": "Unknown industry: \\"fintech\\". Available: blockchain, cybersecurity, ..." }
+```json
+{ "error": "Unknown industry: \"fintech\". Available: blockchain, cybersecurity, ..." }
+```
 
 The error message lists all valid values. Parse it or use the valid values listed below.
 
@@ -87,17 +91,7 @@ The API returns all matching results in a single response. There is no paginatio
 
 ### Industries (11 values)
 
-blockchain
-cybersecurity
-design
-finance
-game development
-information technology
-marketing
-media
-services/consulting
-software
-telecommunications
+blockchain, cybersecurity, design, finance, game development, information technology, marketing, media, services/consulting, software, telecommunications
 
 ### Locations (63 values)
 
@@ -109,19 +103,19 @@ Location slugs use ASCII characters only. "Čakovec" becomes "cakovec", "Slavons
 
 For terminal-based workflows (scripts, pipelines, shell tools), use curl directly:
 
-  curl -sL it-croatia.com                        # all companies, text table
-  curl -sL it-croatia.com/software               # filter by industry
-  curl -sL it-croatia.com/zagreb                  # filter by location
-  curl -sL it-croatia.com/software/zagreb         # combine filters
+    curl -sL it-croatia.com                        # all companies, text table
+    curl -sL it-croatia.com/software               # filter by industry
+    curl -sL it-croatia.com/zagreb                  # filter by location
+    curl -sL it-croatia.com/software/zagreb         # combine filters
 
 For JSON output from the terminal:
 
-  curl -sL -H "Accept: application/json" "https://www.it-croatia.com/api/companies"
-  curl -sL -H "Accept: application/json" "https://www.it-croatia.com/api/companies?industry=software&location=zagreb"
+    curl -sL -H "Accept: application/json" "https://www.it-croatia.com/api/companies"
+    curl -sL -H "Accept: application/json" "https://www.it-croatia.com/api/companies?industry=software&location=zagreb"
 
 Pipe to jq for extraction:
 
-  curl -sL -H "Accept: application/json" "https://www.it-croatia.com/api/companies?location=split" | jq '.companies[].company'
+    curl -sL -H "Accept: application/json" "https://www.it-croatia.com/api/companies?location=split" | jq '.companies[].company'
 
 ## Guidance for Building Applications
 
@@ -137,16 +131,6 @@ Pipe to jq for extraction:
 
 The full OpenAPI 3.1 spec is available at:
 
-  https://www.it-croatia.com/openapi.yaml
+    https://www.it-croatia.com/openapi.yaml
 
 Use it for code generation, schema validation, or integration with tools that consume OpenAPI.
-`;
-
-export async function GET() {
-  return new Response(CONTENT, {
-    headers: {
-      "Content-Type": "text/plain; charset=utf-8",
-      "Cache-Control": "public, max-age=86400",
-    },
-  });
-}
