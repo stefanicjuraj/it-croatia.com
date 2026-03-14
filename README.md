@@ -90,57 +90,16 @@ curl -H "Accept: application/json" "https://www.it-croatia.com/api/companies"
 curl -H "Accept: application/json" "https://www.it-croatia.com/api/companies?industry=software"
 ```
 
-```json
-{
-  "count": 423,
-  "filters": {
-    "industry": "software"
-  },
-  "companies": [...]
-}
-```
-
 #### Filter by location
 
 ```bash
 curl -H "Accept: application/json" "https://www.it-croatia.com/api/companies?location=split"
 ```
 
-```json
-{
-  "count": 68,
-  "filters": {
-    "location": "split"
-  },
-  "companies": [...]
-}
-```
-
 #### Combine filters
 
 ```bash
 curl -H "Accept: application/json" "https://www.it-croatia.com/api/companies?industry=software&location=zagreb"
-```
-
-```json
-{
-  "count": 207,
-  "filters": {
-    "industry": "software",
-    "location": "zagreb"
-  },
-  "companies": [...]
-}
-```
-
-### Error Response `400 Bad Request`
-
-Returned when an invalid industry or location is provided.
-
-```json
-{
-  "error": "Unknown industry: \"fintech\". Available: blockchain, cybersecurity, design, finance, game development, information technology, marketing, media, services/consulting, software, telecommunications"
-}
 ```
 
 ### Available Filter Values
