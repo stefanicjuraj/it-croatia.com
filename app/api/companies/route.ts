@@ -126,6 +126,16 @@ function buildTextTable(companies: Company[]) {
   return [headerLine, separator, ...dataLines].join("\n");
 }
 
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Accept, X-Filter-Industry, X-Filter-Location, X-Format",
+};
+
+export async function OPTIONS() {
+  return new Response(null, { status: 204, headers: corsHeaders });
+}
+
 export async function GET(request: NextRequest) {
   const { industry, location, format } = getFilters(request);
   const allCompanies = companiesData.companies as Company[];
@@ -139,12 +149,12 @@ export async function GET(request: NextRequest) {
     if (wantsJson) {
       return Response.json(
         { error: result.error.message },
-        { status: result.error.status }
+        { status: result.error.status, headers: corsHeaders }
       );
     }
     return new Response(result.error.message + "\n", {
       status: result.error.status,
-      headers: { "Content-Type": "text/plain; charset=utf-8" },
+      headers: { "Content-Type": "text/plain; charset=utf-8", ...corsHeaders },
     });
   }
 
@@ -163,10 +173,10 @@ export async function GET(request: NextRequest) {
         ...(location && { location }),
       },
       companies: data,
-    });
+    }, { headers: corsHeaders });
   }
 
   return new Response(buildTextTable(result.companies) + "\n", {
-    headers: { "Content-Type": "text/plain; charset=utf-8" },
+    headers: { "Content-Type": "text/plain; charset=utf-8", ...corsHeaders },
   });
 }
