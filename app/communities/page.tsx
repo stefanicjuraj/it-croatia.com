@@ -16,8 +16,8 @@ type SortKey = "Community" | "Platform" | "Topic";
 export default function Communities() {
   const [communities, setCommunities] = useState<Community[]>([]);
   const [search, setSearch] = useState("");
-  const [topicFilter, setTopicFilter] = useState("");
-  const [platformFilter, setPlatformFilter] = useState("");
+  const [topicFilters, setTopicFilters] = useState<string[]>([]);
+  const [platformFilters, setPlatformFilters] = useState<string[]>([]);
   const [sortKey, setSortKey] = useState<SortKey>("Community");
   const [sortAsc, setSortAsc] = useState(true);
   useEffect(() => {
@@ -46,9 +46,15 @@ export default function Communities() {
       .filter((community) => {
         if (query && !community.Community.toLowerCase().includes(query))
           return false;
-        if (topicFilter && !community.Topic?.some((t) => t === topicFilter))
+        if (
+          topicFilters.length > 0 &&
+          !community.Topic?.some((t) => topicFilters.includes(t))
+        )
           return false;
-        if (platformFilter && community.Platform !== platformFilter)
+        if (
+          platformFilters.length > 0 &&
+          !platformFilters.includes(community.Platform ?? "")
+        )
           return false;
         return true;
       })
@@ -66,7 +72,22 @@ export default function Communities() {
         }
         return a.Community.localeCompare(b.Community) * direction;
       });
-  }, [communities, search, topicFilter, platformFilter, sortKey, sortAsc]);
+  }, [communities, search, topicFilters, platformFilters, sortKey, sortAsc]);
+
+  const hasActiveFilters = topicFilters.length > 0 || platformFilters.length > 0;
+
+  function removeTopic(topic: string) {
+    setTopicFilters((prev) => prev.filter((t) => t !== topic));
+  }
+
+  function removePlatform(platform: string) {
+    setPlatformFilters((prev) => prev.filter((p) => p !== platform));
+  }
+
+  function clearAllFilters() {
+    setTopicFilters([]);
+    setPlatformFilters([]);
+  }
 
   function handleSort(key: SortKey) {
     if (sortKey === key) {
@@ -85,13 +106,15 @@ export default function Communities() {
     <div className="min-h-screen text-[var(--foreground)] font-mono">
       <header className="sticky top-0 z-10 border-b border-neutral-200 backdrop-blur-xl dark:border-neutral-800 mb-4">
         <div className="mx-auto flex max-w-4xl flex-col gap-3 px-4 py-4">
-          <div>
-            <h1 className="text-xl font-semibold tracking-tight">
-              IT Croatia
-            </h1>
-            <h2 className="text-md text-neutral-500 dark:text-neutral-400">
-              IT communities in Croatia across various platforms and topics.
-            </h2>
+          <div className="flex items-start justify-between">
+            <div>
+              <h1 className="text-3xl font-black tracking-tight">
+                IT Croatia
+              </h1>
+              <h2 className="text-md text-neutral-500 dark:text-neutral-400 mt-1">
+                IT communities in Croatia across various platforms and topics.
+              </h2>
+            </div>
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <input
@@ -102,21 +125,56 @@ export default function Communities() {
               className="h-8 rounded border border-neutral-300 bg-transparent px-2.5 text-sm outline-none placeholder:text-neutral-400 focus:border-neutral-500 dark:border-neutral-700 dark:placeholder:text-neutral-500 dark:focus:border-neutral-400"
             />
             <Dropdown
-              placeholder="All topics"
-              value={topicFilter}
+              multiple
+              placeholder="Topics"
+              value={topicFilters}
               options={topics}
-              onChange={setTopicFilter}
+              onChange={setTopicFilters}
             />
             <Dropdown
-              placeholder="All platforms"
-              value={platformFilter}
+              multiple
+              placeholder="Platforms"
+              value={platformFilters}
               options={platforms}
-              onChange={setPlatformFilter}
+              onChange={setPlatformFilters}
             />
-            <span className="text-sm text-neutral-500 dark:text-neutral-400">
+            <span className="ml-auto text-sm text-neutral-500 dark:text-neutral-400">
               {filteredCommunities.length} communities
             </span>
           </div>
+          {hasActiveFilters && (
+            <div className="flex flex-wrap items-center gap-1.5">
+              {topicFilters.map((topic) => (
+                <button
+                  key={`topic-${topic}`}
+                  type="button"
+                  onClick={() => removeTopic(topic)}
+                  className="inline-flex cursor-pointer items-center gap-1 rounded-full border border-neutral-200 px-2.5 py-0.5 text-xs text-neutral-700 transition-colors hover:border-neutral-400 hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-300 dark:hover:border-neutral-500 dark:hover:bg-neutral-800"
+                >
+                  {topic}
+                  <span className="text-neutral-400 dark:text-neutral-500">&times;</span>
+                </button>
+              ))}
+              {platformFilters.map((platform) => (
+                <button
+                  key={`plat-${platform}`}
+                  type="button"
+                  onClick={() => removePlatform(platform)}
+                  className="inline-flex cursor-pointer items-center gap-1 rounded-full border border-neutral-200 px-2.5 py-0.5 text-xs text-neutral-700 transition-colors hover:border-neutral-400 hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-300 dark:hover:border-neutral-500 dark:hover:bg-neutral-800"
+                >
+                  {platform}
+                  <span className="text-neutral-400 dark:text-neutral-500">&times;</span>
+                </button>
+              ))}
+              <button
+                type="button"
+                onClick={clearAllFilters}
+                className="cursor-pointer px-1.5 py-0.5 text-xs text-neutral-400 hover:text-neutral-600 dark:text-neutral-500 dark:hover:text-neutral-300"
+              >
+                Clear all
+              </button>
+            </div>
+          )}
         </div>
       </header>
 
