@@ -119,7 +119,7 @@ export default function Communities() {
           <div className="flex flex-wrap items-center gap-2">
             <input
               type="text"
-              placeholder="Search communities..."
+              placeholder="Search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="h-8 rounded border border-neutral-300 bg-transparent px-2.5 text-sm outline-none placeholder:text-neutral-400 focus:border-neutral-500 dark:border-neutral-700 dark:placeholder:text-neutral-500 dark:focus:border-neutral-400"
