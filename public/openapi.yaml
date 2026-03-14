@@ -1,0 +1,229 @@
+openapi: 3.1.0
+info:
+  title: it-croatia.com API
+  description: |
+    Public API for querying IT companies, startups, agencies, and consultancies in Croatia.
+
+    The API supports content negotiation. Set `Accept: application/json` or use `?format=json` to receive JSON.
+    Without either, the response is a plain-text ASCII table.
+  version: 1.0.0
+  contact:
+    url: https://it-croatia.com
+
+servers:
+  - url: https://it-croatia.com
+
+paths:
+  /api/companies:
+    get:
+      operationId: getCompanies
+      summary: List companies
+      description: |
+        Returns a list of IT companies in Croatia, optionally filtered by industry and location.
+
+        The response format depends on content negotiation:
+        - `Accept: application/json` or `?format=json` returns JSON.
+        - Any other `Accept` header returns a plain-text ASCII table.
+      parameters:
+        - name: industry
+          in: query
+          required: false
+          description: Filter by industry. Case-insensitive.
+          schema:
+            type: string
+            enum:
+              - blockchain
+              - cybersecurity
+              - design
+              - finance
+              - game development
+              - information technology
+              - marketing
+              - media
+              - services/consulting
+              - software
+              - telecommunications
+        - name: location
+          in: query
+          required: false
+          description: |
+            Filter by location slug. Diacritics are stripped and spaces replaced with hyphens.
+            For example, use `zagreb` for Zagreb, `slavonski-brod` for Slavonski Brod, or `cakovec` for Čakovec.
+          schema:
+            type: string
+            enum:
+              - belisce
+              - bjelovar
+              - cakovec
+              - cavle
+              - ciovo
+              - dakovo
+              - dubrovnik
+              - dugopolje
+              - durdevac
+              - gradac
+              - karlovac
+              - kastav
+              - korcula
+              - kraljevica
+              - krapina
+              - krk
+              - kutina
+              - labin
+              - lipik
+              - lucko
+              - ludbreg
+              - matulji
+              - metkovic
+              - nedelisce
+              - novigrad
+              - osijek
+              - pazin
+              - porec
+              - pozega
+              - pregrada
+              - pribislavec
+              - pula
+              - punat
+              - rabac
+              - remote
+              - rijeka
+              - samobor
+              - savudrija
+              - sibenik
+              - sibinj
+              - sisak
+              - slavonski-brod
+              - solin
+              - split
+              - sv-nedjelja
+              - trogir
+              - valpovo
+              - varazdin
+              - velika-gorica
+              - vinkovci
+              - virje
+              - virovitica
+              - vis
+              - vizinada
+              - vodnjan
+              - vrbanja
+              - vrbovec
+              - vrpolje
+              - vukovar
+              - zabok
+              - zadar
+              - zagreb
+              - zapresic
+        - name: format
+          in: query
+          required: false
+          description: Force the response format. Set to `json` to receive JSON regardless of the `Accept` header.
+          schema:
+            type: string
+            enum:
+              - json
+      responses:
+        "200":
+          description: List of companies matching the filters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompaniesResponse"
+              example:
+                count: 2
+                filters:
+                  industry: software
+                  location: zagreb
+                companies:
+                  - company: "ACME d.o.o."
+                    industry:
+                      - Software
+                    location:
+                      - Zagreb
+                    employees: "50"
+                  - company: "Widgets Inc."
+                    industry:
+                      - Software
+                    location:
+                      - Zagreb
+                    employees: "120"
+            text/plain:
+              schema:
+                type: string
+                description: ASCII-formatted table of companies.
+              example: |
+                Company        | Industry | Location | Employees
+                ---------------+----------+----------+----------
+                ACME d.o.o.    | Software | Zagreb   | 50
+                Widgets Inc.   | Software | Zagreb   | 120
+        "400":
+          description: Invalid industry or location value.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                error: 'Unknown industry: "fintech". Available: blockchain, cybersecurity, design, finance, game development, information technology, marketing, media, services/consulting, software, telecommunications'
+            text/plain:
+              schema:
+                type: string
+              example: |
+                Unknown industry: "fintech". Available: blockchain, cybersecurity, design, finance, game development, information technology, marketing, media, services/consulting, software, telecommunications
+
+components:
+  schemas:
+    Company:
+      type: object
+      required:
+        - company
+      properties:
+        company:
+          type: string
+          description: Company name.
+        industry:
+          type: array
+          items:
+            type: string
+          description: Industries the company operates in.
+        location:
+          type: array
+          items:
+            type: string
+          description: Cities where the company has offices.
+        employees:
+          type: string
+          description: Approximate employee count.
+
+    CompaniesResponse:
+      type: object
+      required:
+        - count
+        - filters
+        - companies
+      properties:
+        count:
+          type: integer
+          description: Total number of companies returned.
+        filters:
+          type: object
+          description: Applied filters echoed back.
+          properties:
+            industry:
+              type: string
+            location:
+              type: string
+        companies:
+          type: array
+          items:
+            $ref: "#/components/schemas/Company"
+          description: List of company objects.
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
+          description: Human-readable error message listing available values.
