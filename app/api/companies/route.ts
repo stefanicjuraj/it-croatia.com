@@ -46,33 +46,21 @@ function normalize(str: string) {
     .replace(/[.\s/]+/g, "-");
 }
 
-function textResponse(text: string, status = 200) {
-  return new Response(text + "\n", {
-    status,
-    headers: { "Content-Type": "text/plain; charset=utf-8" },
-  });
-}
-
-export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const industry =
-    searchParams.get("industry")?.toLowerCase() ||
-    request.headers.get("x-filter-industry") ||
-    undefined;
-  const location =
-    searchParams.get("location")?.toLowerCase() ||
-    request.headers.get("x-filter-location") ||
-    undefined;
-
-  let companies = companiesData.companies as Company[];
-
+function filterCompanies(
+  companies: Company[],
+  industry: string | undefined,
+  location: string | undefined
+): { companies: Company[]; error?: { message: string; status: number } } {
   if (industry) {
     const match = INDUSTRIES.find((i) => i === industry);
     if (!match) {
-      return textResponse(
-        `Unknown industry: "${industry}"\n\nAvailable industries:\n${INDUSTRIES.map((i) => `  - ${i}`).join("\n")}`,
-        400
-      );
+      return {
+        companies: [],
+        error: {
+          message: `Unknown industry: "${industry}". Available: ${INDUSTRIES.join(", ")}`,
+          status: 400,
+        },
+      };
     }
     companies = companies.filter((c) =>
       c.Industry?.some((i) => i.toLowerCase() === match)
@@ -82,16 +70,38 @@ export async function GET(request: NextRequest) {
   if (location) {
     const match = LOCATIONS.find((l) => normalize(l) === normalize(location));
     if (!match) {
-      return textResponse(
-        `Unknown location: "${location}"\n\nAvailable locations:\n${LOCATIONS.map((l) => `  - ${l} (${normalize(l)})`).join("\n")}`,
-        400
-      );
+      return {
+        companies: [],
+        error: {
+          message: `Unknown location: "${location}". Available: ${LOCATIONS.map((l) => `${l} (${normalize(l)})`).join(", ")}`,
+          status: 400,
+        },
+      };
     }
     companies = companies.filter((c) =>
       c.Location?.some((l) => l === match)
     );
   }
 
+  return { companies };
+}
+
+function getFilters(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  return {
+    industry:
+      searchParams.get("industry")?.toLowerCase() ||
+      request.headers.get("x-filter-industry") ||
+      undefined,
+    location:
+      searchParams.get("location")?.toLowerCase() ||
+      request.headers.get("x-filter-location") ||
+      undefined,
+    format: searchParams.get("format") || request.headers.get("x-format") || undefined,
+  };
+}
+
+function buildTextTable(companies: Company[]) {
   const rows = companies.map((c) => [
     c.Company,
     (c.Industry ?? []).join(", "),
@@ -113,5 +123,50 @@ export async function GET(request: NextRequest) {
   const separator = colWidths.map((w) => "-".repeat(w)).join("-+-");
   const dataLines = rows.map((row) => formatRow(row));
 
-  return textResponse([headerLine, separator, ...dataLines].join("\n"));
+  return [headerLine, separator, ...dataLines].join("\n");
+}
+
+export async function GET(request: NextRequest) {
+  const { industry, location, format } = getFilters(request);
+  const allCompanies = companiesData.companies as Company[];
+
+  const result = filterCompanies(allCompanies, industry, location);
+
+  const wantsJson = format === "json" ||
+    (request.headers.get("accept") ?? "").includes("application/json");
+
+  if (result.error) {
+    if (wantsJson) {
+      return Response.json(
+        { error: result.error.message },
+        { status: result.error.status }
+      );
+    }
+    return new Response(result.error.message + "\n", {
+      status: result.error.status,
+      headers: { "Content-Type": "text/plain; charset=utf-8" },
+    });
+  }
+
+  if (wantsJson) {
+    const data = result.companies.map(({ Company, Industry, Location, Employees }) => ({
+      company: Company,
+      industry: Industry,
+      location: Location,
+      employees: Employees,
+    }));
+
+    return Response.json({
+      count: data.length,
+      filters: {
+        ...(industry && { industry }),
+        ...(location && { location }),
+      },
+      companies: data,
+    });
+  }
+
+  return new Response(buildTextTable(result.companies) + "\n", {
+    headers: { "Content-Type": "text/plain; charset=utf-8" },
+  });
 }
