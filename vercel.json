@@ -1,15 +1,9 @@
 {
-    "rewrites": [
-      {
-        "source": "/(.*)",
-        "destination": "/"
-      }
-    ],
-    "cleanUrls": true,
-    "git": {
-      "deploymentEnabled": {
-        "main": false,
-        "dev": false
-      }
+  "cleanUrls": true,
+  "git": {
+    "deploymentEnabled": {
+      "main": false,
+      "dev": false
     }
   }
+}
