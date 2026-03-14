@@ -34,7 +34,7 @@ curl -sL it-croatia.com/software/zagreb
 
 ## API Reference
 
-Base URL: `https://it-croatia.com/api`
+Base URL: `https://www.it-croatia.com/api`
 
 ### `GET /api/companies`
 
@@ -50,7 +50,7 @@ Returns a list of all companies.
 #### Request
 
 ```bash
-curl -H "Accept: application/json" "https://it-croatia.com/api/companies"
+curl -H "Accept: application/json" "https://www.it-croatia.com/api/companies"
 ```
 
 #### Response `200 OK`
@@ -87,7 +87,7 @@ curl -H "Accept: application/json" "https://it-croatia.com/api/companies"
 #### Filter by industry
 
 ```bash
-curl -H "Accept: application/json" "https://it-croatia.com/api/companies?industry=software"
+curl -H "Accept: application/json" "https://www.it-croatia.com/api/companies?industry=software"
 ```
 
 ```json
@@ -103,7 +103,7 @@ curl -H "Accept: application/json" "https://it-croatia.com/api/companies?industr
 #### Filter by location
 
 ```bash
-curl -H "Accept: application/json" "https://it-croatia.com/api/companies?location=split"
+curl -H "Accept: application/json" "https://www.it-croatia.com/api/companies?location=split"
 ```
 
 ```json
@@ -119,7 +119,7 @@ curl -H "Accept: application/json" "https://it-croatia.com/api/companies?locatio
 #### Combine filters
 
 ```bash
-curl -H "Accept: application/json" "https://it-croatia.com/api/companies?industry=software&location=zagreb"
+curl -H "Accept: application/json" "https://www.it-croatia.com/api/companies?industry=software&location=zagreb"
 ```
 
 ```json

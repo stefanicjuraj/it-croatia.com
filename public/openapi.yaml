@@ -8,10 +8,10 @@ info:
     Without either, the response is a plain-text ASCII table.
   version: 1.0.0
   contact:
-    url: https://it-croatia.com
+    url: https://www.it-croatia.com
 
 servers:
-  - url: https://it-croatia.com
+  - url: https://www.it-croatia.com
 
 paths:
   /api/companies:
